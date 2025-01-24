@@ -7,12 +7,15 @@ class Task:
         self.createdAT = createdAT
         self.updatedAT = updatedAT
     def createTask(self):
-        getter = vars(self)
+        all_tasks = {'tasks': []}
+        with open('data.json', 'r') as file:
+            data = json.load(file)
+        all_tasks['tasks'].extend(data['tasks'])
+        all_tasks['tasks'].append(self.__dict__)
         with open('data.json', 'w') as file:
-            json.dump(getter,file)
+            json.dump(all_tasks, file, indent=4)  # Записываем весь словарь (все задачи) в файл
         print("Данные успешно загружены в базу данных")
-
 new_task = Task()
-new_task.id = 1
-new_task.description = 'Полить цветы'
+new_task.id = 2
+new_task.description = 'Полоть цветы'
 new_task.createTask()
